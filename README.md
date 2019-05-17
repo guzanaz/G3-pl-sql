@@ -23,8 +23,9 @@ _Documentación del trabajo final de M02-Sistemas Gestores de Bases de datos de 
   * Nivel conceptual (programadores)
     * grupo_3 _(en este caso tenemos una bbdd pre-hecha/definida pero podremos modificarla en la medida que lo necesitemos para este trabajo)_
   
-  * Nivel físico(administrador/es)
-    * empleados del departamento it  (trabajadores y jefe)
+  * Nivel físico
+    * empleados del departamento IT-Administradores (trabajadores y jefe)
+    * empleados del departamento IT-Developers (trabajadores)
     
 * Realizamos una "definición inicial" de los privilegios y roles que se otorgarán a los distintos tipos de usuario (_esto está documentado en el script [parte 1](https://github.com/guzanaz/G3-pl-sql/blob/master/Parte_1.sql) y está sujeto a modificaciones_)
 
