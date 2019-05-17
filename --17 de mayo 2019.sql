@@ -39,7 +39,7 @@ CREATE ROLE ROLEMP_CONT;
 GRANT CREATE SESSION TO ROLEMP_CONT;
 GRANT SELECT ON GRUPO_3.COMANDA TO ROLEMP_CONT
     
-    -- asignamos el ROLEMP_CONT al usuario EMP_CONT
+    -- asignamos el ROLEMP_CONT al usuario EMP_CONTABLE
     GRANT ROLEMP_CONT TO EMP_CONTABLE;
 
 /*4. Creamos ROLEMP_IT para agrupar y asignar privilegios a los usuarios de tipo IT(administradores)*/
