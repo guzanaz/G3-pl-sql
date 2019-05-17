@@ -15,18 +15,17 @@ _Documentación del trabajo final de M02-Sistemas Gestores de Bases de datos de 
 
 * Definimos a los usuarios
   * Nivel externo (usuario final)
-    * clientes
-    * ventas (trabajadores y jefe)
-    * contabilidad (trabajadores y jefe)
-    * rrhh (trabajadores y jefe)
+    * Clientes
+    * Ventas (trabajadores y jefe)
+    * Contabilidad (trabajadores y jefe)
+    * RRHH (trabajadores y jefe)
   
   * Nivel conceptual (programadores)
-    * grupo_3 
-    _en este caso tenemos una bbdd pre-hecha/definida pero podremos modificarla en la medida que lo necesitemos para este trabajo_
+    * grupo_3 _(en este caso tenemos una bbdd pre-hecha/definida pero podremos modificarla en la medida que lo necesitemos para este trabajo)_
   
   * Nivel físico(administrador/es)
     * empleados del departamento it  (trabajadores y jefe)
     
-* Realizamos una "definición inicial" de los privilegios y roles que se otorgarán a los distintos tipos de usuario (_esto está documentado en el script [parte 1]() y está sujeto a modificaciones_)
+* Realizamos una "definición inicial" de los privilegios y roles que se otorgarán a los distintos tipos de usuario (_esto está documentado en el script [parte 1](https://github.com/guzanaz/G3-pl-sql/blob/master/Parte_1.sql) y está sujeto a modificaciones_)
 
 
