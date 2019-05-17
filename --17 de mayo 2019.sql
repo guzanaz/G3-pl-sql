@@ -1,66 +1,75 @@
---17 de mayo 2019 
-/*0. Creamos los siguientes usuarios:
-    * G3CLIENTE_1;
-    * G3EMP_VENTAS;
-    * G3EMP_CONT;
-    * G3EMP_IT;
-    * G3DEV;
-    * G3EMP_RRHH;   
+/*
+* TRABAJO FINAL M2 
+* PARTE 1 - SCRIPT 17 de mayo 2019
+* todo ha sido ejecutado desde la conexión system EXCEPTO la creación de las tablas y los inserts
+* La creación de las tablas e inserts están en el script G3_tablas_inserts.sql
+* por Daniela Gallardo
 */
 
-/*1. Creamos un rol para asignar privilegios a los usuarios de tipo cliente*/
-CREATE ROLE ROLcliente;
-GRANT CREATE SESSION TO ROLcliente;
-GRANT READ ON ITADMIN.G3_COMANDA TO ROLcliente; 
-GRANT READ ON ITADMIN.G3_DETALL TO ROLcliente;
+/*0. Creamos los siguientes usuarios para hacer prueba de los privilegios/roles que implementaremos:
+    * CLIENTE_PRUEBA
+    * EMP_VENTAS
+    * EMP_CONTABLE
+    * EMP_IT
+    * EMP_DEV
+    * EMP_RRHH   
+*/
 
-    -- asiganmos el ROLcliente al usuario G3CLIENTE_1;
-    GRANT ROLcliente TO G3CLIENTE_1;
+/*1. Creamos ROLCLIENTE para agrupar y asignar privilegios a los usuarios de tipo cliente*/
+CREATE ROLE ROLcliente;--DROP ROLE ROLCLIENTE;
+GRANT CREATE SESSION TO ROLcliente;--
+GRANT READ ON GRUPO_3.COMANDA TO ROLcliente; 
+GRANT READ ON GRUPO_3.DETALL TO ROLcliente;
 
-/*2. Creamos un rol para asignar privilegios a los usuarios de tipo vendedor*/
-CREATE ROLE ROLemp_ventas;
-GRANT CREATE SESSION TO ROLEmp_Ventas;
-GRANT SELECT, INSERT, DELETE, UPDATE ON ITADMIN.G3_COMANDA TO ROLemp_ventas;
-GRANT SELECT, INSERT, DELETE, UPDATE ON ITADMIN.G3_DETALL TO ROLemp_ventas;
-GRANT SELECT, INSERT, DELETE, UPDATE ON ITADMIN.G3_CLIENT TO ROLemp_ventas;
+    -- asignamos el ROLcliente al usuario CLIENTE_PRUEBA
+    GRANT ROLcliente TO CLIENTE_PRUEBA;
+
+/*2. Creamos ROLEMP_VENTAS para agrupar y asignar privilegios a los usuarios de tipo vendedor*/
+CREATE ROLE ROLEMP_VENTAS;
+GRANT CREATE SESSION TO ROLEMP_VENTAS;
+GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.COMANDA TO ROLEMP_VENTAS;
+GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.DETALL TO ROLEMP_VENTAS;
+GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.CLIENT TO ROLEMP_VENTAS;
    
-    -- asiganmos el ROLemp_ventas al usuario G3EMP_VENTAS;
-    GRANT ROLemp_ventas TO G3EMP_VENTAS;
+    -- asignamos el ROLEMP_VENTAS al usuario EMP_VENTAS
+    GRANT ROLEMP_VENTAS TO EMP_VENTAS;
 
-/*3. Creamos un rol para asignar privilegios a los usuarios de tipo contable*/
-CREATE ROLE ROLemp_cont;
-GRANT CREATE SESSION TO ROLemp_cont;
-GRANT SELECT ON ITADMIN.G3_COMANDA TO ROLemp_cont;
+/*3. Creamos ROLEMP_CONT para agrupar y asignar privilegios a los usuarios de tipo contable*/
+CREATE ROLE ROLEMP_CONT;
+GRANT CREATE SESSION TO ROLEMP_CONT;
+GRANT SELECT ON GRUPO_3.COMANDA TO ROLEMP_CONT
     
-    -- asiganmos el ROLemp_cont al usuario G3EMP_CONT;
-    GRANT ROLemp_cont TO G3EMP_CONT;
+    -- asignamos el ROLEMP_CONT al usuario EMP_CONT
+    GRANT ROLEMP_CONT TO EMP_CONTABLE;
 
-/*4. Creamos un rol para asignar privilegios a los usuarios de tipo IT(administradores)*/
-CREATE ROLE ROLemp_it;
-GRANT CREATE SESSION TO ROLemp_it;
+/*4. Creamos ROLEMP_IT para agrupar y asignar privilegios a los usuarios de tipo IT(administradores)*/
+CREATE ROLE ROLEMP_IT;
+GRANT CREATE SESSION TO ROLEMP_IT;
     
-    --Asignamos el rol por defecto de oracle DBA al rol ROLemp_it 
-    GRANT DBA TO ROLemp_it;
+    -- asignamos el rol por defecto de oracle DBA al rol ROLemp_it 
+    GRANT DBA TO ROLEMP_IT;
     
-    -- asiganmos el ROLemp_it al usuario G3EMP_IT
-    GRANT ROLemp_it TO G3EMP_IT;
+    -- asignamos el ROLEMP_IT al usuario EMP_IT
+    GRANT ROLemp_it TO EMP_IT;
 
-/*5. Creamos un rol para asignar privilegios a los usuarios de tipo desarrollador*/
-CREATE ROLE ROLdev;
-GRANT CREATE SESSION TO ROLdev;
-GRANT SELECT ANY TABLE TO ROLdev;
+/*5. Creamos ROLDEV para agrupar y asignar privilegios a los usuarios de tipo developer*/
+CREATE ROLE ROLDEV;
+GRANT CREATE SESSION TO ROLDEV;
+GRANT SELECT ANY TABLE TO ROLDEV;
 
-    -- asiganmos el ROLdev al usuario G3DEV
-    GRANT ROLdev TO G3dev;
+    -- asignamos el ROLDEV al usuario EMP_DEV
+    GRANT ROLdev TO EMP_DEV;
 
-/*6. Creamos un rol para asignar privilegios a los usuarios de tipo RRHH*/
-CREATE ROLE ROLemp_RRHH;
-GRANT CREATE SESSION TO ROLemp_RRHH;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ITADMIN.G3_EMP TO ROLemp_RRHH;
+/*6. Creamos ROLEMP_RRHH para agrupar y asignar privilegios a los usuarios de tipo RRHH*/
+CREATE ROLE ROLEMP_RRHH;
+GRANT CREATE SESSION TO ROLEMP_RRHH;
+GRANT SELECT, INSERT, UPDATE, DELETE ON GRUPO_3.EMP TO ROLEMP_RRHH;
     
-    -- asiganmos el ROLemp_rrhh al usuario G3emp_rrhh
-    GRANT ROLemp_rrhh TO G3emp_rrhh;
+    -- asignamos el ROLEMP_RRHH al usuario EMP_RRHH
+    GRANT ROLEMP_RRHH TO EMP_RRHH;
 
 
 --Para deshacer cualquier privilegio o rol usamos REVOKE privilegio/rol FROM usuario/rol;
+
+
 
