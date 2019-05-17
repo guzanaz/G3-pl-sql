@@ -3,29 +3,30 @@
 _Documentación del trabajo final de M02-Sistemas Gestores de Bases de datos de los estudiantes Carlos Masana, Artur Marin y Daniela Gallardo_
 
 ## LAS TAREAS A DESARROLLAR SON 📌
-* elegir una bd de todas las bases de datos con las que hemos trabajado. (que tenga una relación m-n y una relación reflexiva)
-* definir usuarios
-* asignar roles y privilegios
-* desarrollar procedimientos almacenados, funciones y triggers
+* Elegir una bd de todas las bases de datos con las que hemos trabajado. (que tenga una relación m-n y una relación reflexiva)
+* Plantear un entorno de uso real de la base de datos escogida. 
+* Definir usuarios.
+* Asignar roles y privilegios.
+* Desarrollar procedimientos almacenados, funciones y triggers.
+* Implementar las tareas priorizadas y hacer un manual para migrar del entorno de desarrollo en el entorno de producción.
 
 ## LO QUE TENEMOS HASTA AHORA ⚙️
-* elegimos la bbdd de la [uf3_ra2_autoavaluacio](uf3_ra2_autoavaluacio_funcions_procediments.sql)
+* Elegimos la bbdd de la [uf3_ra2_autoavaluacio](https://github.com/guzanaz/G3-pl-sql/blob/master/G3_tablas_inserts.sql)
 
-* definimos a los usuarios
-  * nivel externo (usuario final)
+* Definimos a los usuarios
+  * Nivel externo (usuario final)
     * clientes
     * ventas (trabajadores y jefe)
     * contabilidad (trabajadores y jefe)
     * rrhh (trabajadores y jefe)
   
-  * nivel conceptual (programadores)
+  * Nivel conceptual (programadores)
     * grupo_3 
     _en este caso tenemos una bbdd pre-hecha/definida pero podremos modificarla en la medida que lo necesitemos para este trabajo_
   
-  * nivel físico(administrador/es)
+  * Nivel físico(administrador/es)
     * empleados del departamento it  (trabajadores y jefe)
     
-* realizamos una definición inicial de los privilegios y roles que se otorgarán a los distintos usuarios
- * _esto está documentado en el script parte 1 y está sujeto a modificaciones_
+* Realizamos una "definición inicial" de los privilegios y roles que se otorgarán a los distintos tipos de usuario (_esto está documentado en el script [parte 1]() y está sujeto a modificaciones_)
 
 
