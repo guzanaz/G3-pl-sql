@@ -1,76 +1,81 @@
-/*Procedimiento 1
-*crear procedimiento que elimine los datos de un determinado cliente 
-si éste pide que se eliminen por privacidad.
+/*
+* TRABAJO FINAL M2 
+* PARTE 2 - SCRIPT parte_2.sql
+* procedimientos, funciones y triggers
+* autores: Daniela Gallardo, Carlos Masana, Artur Marin 
 */
 
-CREATE OR REPLACE PROCEDURE BORRAR_USUARIO (idusuario in CLIENT.client_cod%type)
-IS
-  
-BEGIN
-    DELETE FROM CLIENT WHERE CLIENT_COD = idusuario;
-    
-    DBMS_OUTPUT.PUT_LINE('El usuario con número '||idusuario||' ha sido eliminado');
-    
-END borrar_usuario;
 
---Otorgamos el privilegio a los usuarios con el rol ROLcliente
-GRANT EXECUTE ON BORRAR_USUARIO TO ROLcliente; --REVOKE EXECUTE ON BORRAR_USUARIO FROM ROLcliente;
-
---Insertamos un cliente para probar el borrado
-INSERT INTO CLIENT(CLIENT_COD, NOM, DIRECCIO, CIUTAT, ESTAT, CODI_POSTAL, AREA, TELEFON, REPR_COD, LIMIT_CREDIT, OBSERVACIONS)
-    VALUES(110,'CLIENTE PRUEBA', '573 MURPHY FORD ROAD','JEFFERSON CITY','MO',65043 ,573, 123-4567, 7844, 10000,'Very friendly people to work with');
-
---Otorgamos privilegios de hacer delete on client 
- GRANT DELETE ON CLIENT TO ROLcliente; 
-
---Comprobamos desde la conexion cliente_prueba si funciona
-EXECUTE BORRAR_USUARIO (110);
-
---Comprobamos desde la conexion grupo_3 si se ha borrado
-select * from client;
-
-
-/* Crear trigger: para cada empleado por cada 10 productos 
-que venda  (sin  importar el tipo de producto ni la comanda): 
-	* Se registra en la tabla ptos_por_ventas el id del empleado, 
-	la cantidad total de productos vendidos y el puntaje acumulado a la fecha.
-	* cada 10 productos vendidos se obtienen 5 puntos
+/*PROCEDIMIENTO QUE:
+* muestra los pedidos que ha hecho un determinado cliente 
+* y muestra los detalles de cada uno
 */
 
--- creamos la tabla ptos_por_ventas
-CREATE TABLE ptos_por_venta(
-emp_no NUMBER(4) not null,
-fecha date not null,
-quantitat_prod Number(9) not null,
-puntaje NUMBER(9) null,
-    CONSTRAINT ptos_por_venta_pk
-        PRIMARY KEY (emp_no,client_cod),
-    CONSTRAINT ptos_por_venta_fk_emp
-		FOREIGN KEY (emp_no)
-		REFERENCES EMP (EMP_NO)
-);
+    /*1. Primero creamos un procedimiento que muestre todos los productos de una determinada comanda*/
+    CREATE OR REPLACE PROCEDURE P_PED_POR_COM (id_com detall.com_num%TYPE)
+        IS
+            v_des producte.descripcio%TYPE;
+    
+            CURSOR c_ped_com IS
+                SELECT prod_num, preu_venda, quantitat, import
+                FROM detall
+                WHERE com_num = id_com;
 
---hacemos el select que me mostraría campos que necesito guardarme en la nueva tabla
-SELECT client.REPR_COD as emp_no, sum(DETALL.QUANTITAT) 
-FROM (((comanda
-    INNER JOIN detall
-    ON COMANDA.COM_NUM= DETALL.COM_NUM)
-    INNER JOIN client
-    ON comanda.client_cod= client.client_cod)
-    INNER JOIN EMP
-    ON CLIENT.REPR_COD= EMP.EMP_NO)
-    group by client.REPR_COD;
+        BEGIN
+            FOR r_ped_com IN c_ped_com 
+            LOOP
+                SELECT descripcio
+                INTO v_des
+                FROM producte
+                WHERE prod_num = r_ped_com.prod_num;
+        
+        DBMS_OUTPUT.PUT_LINE('Ref: '||r_ped_com.prod_num||' Producto: '||v_des||' Precio: '||r_ped_com.preu_venda||' Qty: '||r_ped_com.quantitat||' Importe: '||r_ped_com.import);
+            END LOOP;
+        END P_PED_POR_COM;
+        /
 
--- compruebo si el select anterior me está sumando correctamente 
-	--(sumando los resultados por tipo de producto)
-SELECT client.REPR_COD as emp_no, detall.prod_num, DETALL.QUANTITAT
-FROM (((comanda
-    INNER JOIN detall
-    ON COMANDA.COM_NUM= DETALL.COM_NUM)
-    INNER JOIN client
-    ON comanda.client_cod= client.client_cod)
-    INNER JOIN EMP
-    ON CLIENT.REPR_COD= EMP.EMP_NO)
-    order by client.REPR_COD;
+    /*2. Creamos otro procedimiento en el que llamamos al procedimiento anterior 
+    para que muestre un listado de los productos por factura*/  
+    
+    CREATE OR REPLACE PROCEDURE P_PEDIDOS_CLI (id_client comanda.client_cod%TYPE)
+    IS  
+        v_nom client.nom%TYPE;
+    
+        CURSOR c_pedidos_tot IS
+            SELECT com_data, com_num, data_tramesa, total 
+            FROM comanda
+                WHERE client_cod = id_client
+            ORDER BY com_data;
+        
+    BEGIN
+        -- Consulta que almacena en una variable el nombre del cliente
+        SELECT nom INTO v_nom
+        FROM client
+            WHERE client_cod = id_client;
+    
+        -- Líneas con texto informativo
+        DBMS_OUTPUT.PUT_LINE('Pedidos de: '||v_nom||' - Nº Cliente: '||id_client);
+        DBMS_OUTPUT.PUT_LINE(' ');
+    
+        -- Bucle para obtener los registros del cursor
+        FOR r_pedidos_tot IN c_pedidos_tot 
+        LOOP
+            DBMS_OUTPUT.PUT_LINE('FACTURA: '||r_pedidos_tot.com_num||' --- '||r_pedidos_tot.com_data||' '||r_pedidos_tot.total);
+        
+            -- Llamada al proc. para mostrar la lista de productos por comanda
+            P_PED_POR_COM(r_pedidos_tot.com_num);
+        
+            DBMS_OUTPUT.PUT_LINE('');
+        END LOOP;
+    END P_PEDIDOS_CLI;
+    /
+
+    --Comprobamos
+    CALL P_PEDIDOS_CLI(100);
+
+    /*PROCEDIMIENTO QUE:
+        * muestra los pedidos que ha hecho un determinado cliente 
+        * y muestra los detalles de cada uno
+    */
 
     
