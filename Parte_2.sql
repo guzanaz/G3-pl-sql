@@ -6,7 +6,7 @@
 */
 
 
-/*PROCEDIMIENTO QUE:
+/* PROCEDIMIENTO QUE:
 * muestra los pedidos que ha hecho un determinado cliente 
 * y muestra los detalles de cada uno
 */
@@ -70,12 +70,131 @@
     END P_PEDIDOS_CLI;
     /
 
-    --Comprobamos
+    --comprobamos
     CALL P_PEDIDOS_CLI(100);
 
-    /*PROCEDIMIENTO QUE:
-        * muestra los pedidos que ha hecho un determinado cliente 
-        * y muestra los detalles de cada uno
-    */
+    
+
+/*PROCEDIMIENTO QUE:
+    * recibe el parámetro de un cliente
+    * y devuelve el último pedido del cliente por pantalla
+*/
+    /*1. Creamos una Función que recibe por parámetro un cliente 
+    y devuelve el último pedido del cliente */
+    CREATE OR REPLACE FUNCTION F_ULT_COM (cod_cli comanda.client_cod%type)
+    RETURN comanda%rowtype
+    IS
+        --declaramos la variable ultima_comanda de tipo rowtype
+        ultima_comanda comanda%rowtype;
+
+        BEGIN   
+            SELECT * into ultima_comanda   
+            from comanda 
+                WHERE comanda.client_cod = cod_cli
+            order by com_data DESC
+            FETCH FIRST 1 ROWS ONLY;
+        
+        RETURN ultima_comanda;
+            
+    END F_ULT_COM;
+    /
+    --comprobamos con un bloque anónimo
+    DECLARE
+        ultima_comanda comanda%rowtype;
+        cod_cli comanda.client_cod%type:=101;
+    BEGIN
+        ultima_comanda := f_ult_com(cod_cli);
+        DBMS_OUTPUT.PUT_LINE('La última comanda del cliente:'||cod_cli||'  es la nº:'||ultima_comanda.com_num);
+    end;
+
+
+    /*2. Creamos procedimiento para utilizar la función que acabamos de crear*/
+    CREATE OR REPLACE PROCEDURE p_ult_com (cod_cli comanda.client_cod%type)
+    as
+    ultima_comanda comanda%rowtype;
+    BEGIN
+        --asignamosa a la variable el nombre de la función
+        ultima_comanda := f_ult_com(cod_cli);
+        --imprimimos la variable con el nombre del campo que queremos que devuelva
+        DBMS_OUTPUT.PUT_LINE('La última comanda del cliente:'||cod_cli||'  es la nº:'||ultima_comanda.com_num);
+    END;
+
+    --comprobamos
+    execute p_ult_com(101);
+
+/* PROCEDIMIENTO QUE:
+    para los empleados vendedores muestre por pantalla:
+    1) id de empleado, y la suma del total de los productos que han vendido a la fecha.
+    2) Si cada 10 productos vendidos obtienen 5 puntos, mostrar el puntaje a la fecha.
+*/
+    -- 1. select que me mostraría campos que necesito mostrar sin el puntaje
+     SELECT client.REPR_COD, sum(QUANTITAT) as suma
+          FROM detall, client, comanda, emp
+            where DETALL.COM_NUM= COMANDA.COM_NUM
+                and comanda.client_cod= client.client_cod
+                and CLIENT.REPR_COD= EMP.EMP_NO
+                group by client.REPR_COD;
+    --1.1 compruebo si el select anterior está sumando correctamente
+    SELECT client.REPR_COD, detall.prod_num, detall.QUANTITAT
+        FROM detall, client, comanda, emp
+            where DETALL.COM_NUM= COMANDA.COM_NUM
+                and comanda.client_cod= client.client_cod
+                and CLIENT.REPR_COD= EMP.EMP_NO
+            group by client.REPR_COD;
+
+    -- 2. creo una función para obtener los puntos por c/ 10 prod. vendidos
+    CREATE OR REPLACE FUNCTION f_ventas_a_ptje (v_quantitat_prod in detall.quantitat%TYPE)
+    RETURN number 
+    as 
+        v_total INT;--que me devuelva un entero para no tener resultados con decimal
+
+    BEGIN         
+        v_total:=(v_quantitat_prod/10)*5;
+    
+    Return v_total;
+    
+    END f_ventas_a_ptje;
+
+    --3.Comprobamos la función con un bloque anónimo (y dividiendo por un nro impar)
+    DECLARE
+        V_TOTAL int;
+    BEGIN
+    V_TOTAL :=f_ventas_a_ptje(307);
+    DBMS_OUTPUT.PUT_LINE(V_TOTAL);
+    end;
+
+    --4.Creamos el procedimiento donde usamos el select y la función que hemos hecho
+    CREATE OR REPLACE PROCEDURE p_ptosporventa 
+    as
+        v_ptos int;
+    
+        cursor c_ptosporventa is
+            SELECT client.REPR_COD, sum(QUANTITAT) as suma
+                FROM detall, client, comanda, emp
+                    where DETALL.COM_NUM= COMANDA.COM_NUM
+                    and comanda.client_cod= client.client_cod
+                    and CLIENT.REPR_COD= EMP.EMP_NO
+                group by client.REPR_COD;
+    BEGIN
+        FOR r_ptosporventa IN c_ptosporventa 
+        loop
+  
+        v_ptos:=f_ventas_a_ptje(r_ptosporventa.suma); 
+        /* imprimimos por pantalla*/       
+        DBMS_OUTPUT.PUT_LINE('NRO.emp: '||r_ptosporventa.repr_cod||
+                    '  cant_prod: '||r_ptosporventa.suma||'  puntos: '||v_ptos);
+        end loop;
+    end;
+
+    --comprobamos
+    execute p_ptosporventa;
+
+
+
+
+
+
+
+
 
     
