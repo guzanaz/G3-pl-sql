@@ -254,6 +254,25 @@
     /
 
     --3.Creamos el trigger
+    CREATE OR REPLACE TRIGGER T_OLD_EMP 
+    BEFORE DELETE ON EMP
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO OLD_EMP
+        VALUES (:old.emp_no, :old.cognom, :old.dept_no, :old.data_alta, sysdate, f_anys_treballats(sysdate, :old.data_alta));
+    END T_OLD_EMP;
+    /
+
+    --3.1 comprobamos
+        -- insertamos un empleado para luego eliminarlo
+        INSERT INTO EMP (EMP_NO, COGNOM, OFICI, CAP, DATA_ALTA, SALARI, COMISSIO, DEPT_NO)
+            VALUES (7999,'MASANA','VENEDOR', 7698, TO_DATE('30/05/18','DD/MM/YY'), 20000, null, 10);
+        
+        --borramos el emp
+        DELETE FROM EMP WHERE EMP_NO = 7999;
+    
+        --consultamos la nueva tabla
+        SELECT * FROM OLD_EMP;
 
 
 
