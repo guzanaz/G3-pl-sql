@@ -2,11 +2,11 @@
 /*
 * TRABAJO FINAL M2 
 * PARTE 0 - SCRIPT G3_tablas_inserts.sql
-* Para crear las tablas e inserts hemos trabajado en SQLDEVELOPER en la Máquina Virtual de ORACLE
+* Para crear las tablas e inserts hemos trabajado en SQLDEVELOPER en la MÃ¡quina Virtual de ORACLE
 * Creamos el usuario GRUPO_3
-  -- contraseña: 123456
+  -- contraseÃ±a: 123456
   -- Roles otorgados: Administrar todo
-* por Daniela Gallardo
+* por Daniela Gallardo, Carlos Masana, Artur Marin
 */
 
 
@@ -22,9 +22,9 @@ CREATE TABLE DEPT (
 PAUSE "Hem creat la taula DEPT. Ara hi inserirem valors. Premi tecla..."
 
 INSERT INTO DEPT VALUES (10, 'COMPTABILITAT', 'SEVILLA');
-INSERT INTO DEPT VALUES (20, 'INVESTIGACIÓ', 'MADRID');
+INSERT INTO DEPT VALUES (20, 'INVESTIGACIÃ“', 'MADRID');
 INSERT INTO DEPT VALUES (30, 'VENDES', 'BARCELONA');
-INSERT INTO DEPT VALUES (40, 'PRODUCCIÓ', 'BILBAO');
+INSERT INTO DEPT VALUES (40, 'PRODUCCIÃ“', 'BILBAO');
 COMMIT;
 
 PAUSE "Hem inserit valors a la taula DEPT. Premi tecla..."
@@ -77,7 +77,7 @@ INSERT INTO EMP VALUES (7900,'JIMENO','EMPLEAT',7698, to_date('03/12/81', 'dd/mm
                         123500,NULL,30);
 INSERT INTO EMP VALUES (7902,'FERNANDEZ','ANALISTA',7566, to_date('03/12/81', 'dd/mm/RR'),
                         390000,NULL,20);
-INSERT INTO EMP VALUES (7934,'MUÑOZ','EMPLEAT',7782, to_date('23/01/82', 'dd/mm/RR'),
+INSERT INTO EMP VALUES (7934,'MUÃ‘OZ','EMPLEAT',7782, to_date('23/01/82', 'dd/mm/RR'),
                         169000,NULL,10);
 COMMIT;
 
@@ -429,4 +429,4 @@ COMMIT;
 
 PAUSE "Hem inserit valors a la taula DETALL. Premi tecla..."
 
-PAUSE "El guiï¿½ s'ha executat correctament. Premi tecla..."
+PAUSE "El guiÃ¯Â¿Â½ s'ha executat correctament. Premi tecla..."
