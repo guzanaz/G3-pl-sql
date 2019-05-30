@@ -245,7 +245,7 @@
     END F_ANYS_TREBALLATS;
     /
 
-    --2.1 comprobamos con un bloque anónimo 
+    --2.1 comprobamos la función con un bloque anónimo 
     DECLARE
         anys_tot NUMBER;
     BEGIN
