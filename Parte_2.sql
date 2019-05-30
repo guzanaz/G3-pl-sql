@@ -349,7 +349,42 @@
             ON t.repr_cod = e.emp_no
         AND t.repr_cod = 7844
         AND a.com_data BETWEEN '01-05-86' AND '12-01-87';
-        
+
+/*PROCEDIMIENTO QUE
+Muestra los 10 últimos pedidos (comandas) de un cliente
+*/
+
+    CREATE OR REPLACE PROCEDURE P_DIEZ_ULT_PED (id_client comanda.client_cod%TYPE)
+    IS  
+        v_nom client.nom%TYPE;
+    
+        CURSOR c_pedidos_tot IS
+            SELECT com_data, com_num, data_tramesa, total 
+            FROM comanda
+                WHERE client_cod = id_client
+            ORDER BY com_data
+            FETCH FIRST 10 ROWS ONLY;       
+    BEGIN
+        -- Consulta que almacena en una variable el nombre del cliente
+        SELECT nom INTO v_nom
+            FROM client
+                WHERE client_cod = id_client;
+    
+        -- Líneas con texto informativo
+        DBMS_OUTPUT.PUT_LINE('Pedidos de: '||v_nom||' - Nº Cliente: '||id_client);
+        DBMS_OUTPUT.PUT_LINE(' ');
+    
+        -- Bucle para obtener los registros del cursor
+        FOR r_pedidos_tot IN c_pedidos_tot 
+        LOOP
+            DBMS_OUTPUT.PUT_LINE('FACTURA: '||r_pedidos_tot.com_num||' --- '||r_pedidos_tot.com_data||' '||r_pedidos_tot.total);
+            DBMS_OUTPUT.PUT_LINE('');
+        END LOOP;
+    END P_DIEZ_ULT_PED;
+    /
+
+    --comprobamos que funciona
+    CALL P_DIEZ_ULT_PED(100);
 
 
 
