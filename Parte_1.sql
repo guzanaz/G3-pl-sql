@@ -42,8 +42,9 @@ GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.COMANDA TO ROLEMP_VENTAS;
 GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.DETALL TO ROLEMP_VENTAS;
 GRANT SELECT, INSERT, DELETE, UPDATE ON GRUPO_3.CLIENT TO ROLEMP_VENTAS;
 GRANT SELECT, UPDATE ON producte TO RolEmp_Ventas; -- Pueden modificar únicamente los productos
---GRANT EXECUTE ON P_DIEZ_ULT_PED TO RolEmp_Ventas;
+GRANT EXECUTE ON P_DIEZ_ULT_PED TO RolEmp_Ventas;
 GRANT EXECUTE ON P_VENTAS_TOT_EMP TO RolEmp_Ventas;   
+    
     -- asignamos el ROLEMP_VENTAS al usuario EMP_VENTAS
     GRANT ROLEMP_VENTAS TO EMP_VENTAS;
 
@@ -51,7 +52,7 @@ GRANT EXECUTE ON P_VENTAS_TOT_EMP TO RolEmp_Ventas;
 GRANT CREATE SESSION TO J_VENT;
 GRANT INSERT, DELETE ON producte TO RolEmp_Ventas; -- Puede introducir y borrar productos
 GRANT EXECUTE ON P_VENTAS_TOT TO J_VENT;
-GRANT RolEmp_Ventas TO J_VENT;----añadimos el rolemp_ventas al jefe
+GRANT RolEmp_Ventas TO J_VENT;--asignamos el rolemp_ventas al jefe
 
 
 /*3. Creamos ROLEMP_CONT para agrupar y asignar privilegios a los usuarios de tipo contable*/
@@ -97,7 +98,7 @@ PENDIENTE ! GRANT EXECUTE ON P_INCRE_PER_CENT TO RolEmp_RRHH;
 
 -- 6.1 Cedemos Privilegios a J_HR (Jefe Dpto. RRHH)
 GRANT CREATE SESSION TO J_HR;
-GRANT RolEmp_RRHH TO J_HR;--añadimos el rol de emp rrhh al jefe
+GRANT RolEmp_RRHH TO J_HR;--asignamos el rol de emp rrhh al jefe
 
 /* COMPROBACIÓN DE ROLES */
 -- SELECT * FROM DBA_ROLE_PRIVS;
