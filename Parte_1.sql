@@ -3,7 +3,7 @@
 * PARTE 1 - SCRIPT 17 de mayo 2019
 * todo ha sido ejecutado desde la conexión system EXCEPTO la creación de las tablas y los inserts
 * La creación de las tablas e inserts están en el script G3_tablas_inserts.sql
-* por Daniela Gallardo
+* por Daniela Gallardo, Carlos Masana, Artur Marin
 */
 
 /*0. Creamos los siguientes usuarios para hacer prueba de los privilegios/roles que implementaremos:
