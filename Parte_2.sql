@@ -386,5 +386,32 @@ Muestra los 10 últimos pedidos (comandas) de un cliente
     --comprobamos que funciona
     CALL P_DIEZ_ULT_PED(100);
 
+/*FUNCIÓN QUE: 
+    Recibe por parámetro un campo e incrementa su valor un % (Calculo de IVA, aumentar comisiones, sueldos, etc)
+*/
+
+    CREATE OR REPLACE FUNCTION F_INCRE_PER_CENT (i_valor NUMBER, i_increm NUMBER)
+    RETURN NUMBER
+    IS
+        xcien CONSTANT NUMBER := 100; -- Para hallar el % 
+        v_total number;
+  
+    BEGIN
+        v_total:=i_valor + (i_valor * i_increm / xcien);
+    
+        RETURN v_total;
+   
+    END F_INCRE_PER_CENT;
+    /
+
+    -- comprobamos
+    SELECT 
+        emp_no, 
+        cognom, 
+        ofici, 
+        salari AS "Antiguo Salario", 
+        f_incre_per_cent(salari, 20) AS "Nuevo Salario" 
+    FROM emp;
+
 
 
