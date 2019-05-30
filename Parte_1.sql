@@ -50,7 +50,7 @@ GRANT EXECUTE ON P_VENTAS_TOT_EMP TO RolEmp_Ventas;
 
 -- 2.1 Cedemos Privilegios a J_VENT (Jefe Dpto. Ventas)
 GRANT CREATE SESSION TO J_VENT;
-GRANT INSERT, DELETE ON producte TO RolEmp_Ventas; -- Puede introducir y borrar productos
+GRANT INSERT, DELETE ON producte TO J_VENT ; -- Puede introducir y borrar productos
 GRANT EXECUTE ON P_VENTAS_TOT TO J_VENT;
 GRANT RolEmp_Ventas TO J_VENT;--asignamos el rolemp_ventas al jefe
 
