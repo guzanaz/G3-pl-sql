@@ -146,12 +146,14 @@
     CREATE OR REPLACE FUNCTION f_ventas_a_ptje (v_quantitat_prod in detall.quantitat%TYPE)
     RETURN number 
     as 
-        v_total INT;--que me devuelva un entero para no tener resultados con decimal
+        v_total INT;
+        v_cant CONSTANT int:=10;--prod. que se necesitan para tener ptje.
+        v_point CONSTANT int:=5;--puntos que se consiguen
 
     BEGIN         
-        v_total:=(v_quantitat_prod/10)*5;
+        v_total:=(v_quantitat_prod/v_cant)*v_point;
     
-    Return v_total;
+        Return v_total;
     
     END f_ventas_a_ptje;
 
@@ -188,6 +190,28 @@
 
     --comprobamos
     execute p_ptosporventa;
+
+/*Función que:
+    * Devuelve la cantidad total de pedidos que ha hecho un determinado cliente 
+*/
+
+    CREATE OR REPLACE FUNCTION F_TOT_PED_CLI (id_client comanda.client_cod%TYPE)
+    RETURN NUMBER
+    IS  
+        total_pedidos NUMBER;
+
+    BEGIN
+        SELECT count(*)
+        INTO total_pedidos
+        FROM comanda
+        WHERE client_cod = id_client;
+
+        RETURN total_pedidos;
+
+    END F_TOT_PED_CLI;
+
+
+
 
 
 
