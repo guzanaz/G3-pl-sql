@@ -274,17 +274,82 @@
         --consultamos la nueva tabla
         SELECT * FROM OLD_EMP;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* PROCEDIMIENTO EN EL QUE:
+    Se ingresan dos fechas y se obtiene un listado de las ventas totales por ese período
+*/
+    CREATE OR REPLACE PROCEDURE P_VENTAS_TOT (ini_fecha VARCHAR2, fin_fecha VARCHAR2)
+    IS  
+        CURSOR c_ventas_tot IS
+            SELECT com_data, com_num, client_cod, data_tramesa, total 
+            FROM comanda
+                WHERE com_data BETWEEN ini_fecha AND fin_fecha
+            ORDER BY com_data;
+        
+    BEGIN
+        -- Líneas con texto informativo
+        DBMS_OUTPUT.PUT_LINE('Ventas entre: '||ini_fecha|| ' y '||fin_fecha);
+        DBMS_OUTPUT.PUT_LINE(' ');
     
+        -- Bucle para obtener los registros del cursor
+       FOR r_ventas_tot IN c_ventas_tot 
+        LOOP
+        DBMS_OUTPUT.PUT_LINE(r_ventas_tot.com_data||' --- '||'Nro. comanda: '||r_ventas_tot.com_num||'   Ciente: '||r_ventas_tot.client_cod||'   Total: '||r_ventas_tot.total);
+        END LOOP;
+    
+    END P_VENTAS_TOT;
+    /
+
+    --comprobamos
+    CALL P_VENTAS_TOT('01-05-86','12-01-87');
+
+/* PROCEDIMIENTO QUE: 
+    Muestra las ventas totales de un empleado en un determinado período de tiempo
+*/
+
+    CREATE OR REPLACE PROCEDURE P_VENTAS_TOT_EMP (ini_fecha VARCHAR2, fin_fecha VARCHAR2, id_emp emp.emp_no%type)
+    IS  
+        v_cognom emp.cognom%TYPE;
+    
+        CURSOR c_ventas_tot IS
+            SELECT a.com_data, a.com_num, a.client_cod, a.data_tramesa, a.total, t.repr_cod 
+                FROM comanda a, client t
+                    WHERE a.com_data BETWEEN ini_fecha AND fin_fecha
+                        AND a.client_cod = t.client_cod
+                        AND t.repr_cod = id_emp
+                    ORDER BY a.com_data;
+        
+    BEGIN
+        -- Consulta que almacena el apellido del empleado en una variable
+        SELECT cognom INTO v_cognom
+        FROM emp
+        WHERE emp_no = id_emp;
+    
+        -- Líneas con texto informativo
+        DBMS_OUTPUT.PUT_LINE('Empleado '||v_cognom|| ' nº: '||id_emp);
+        DBMS_OUTPUT.PUT_LINE('Ventas entre: '||ini_fecha|| ' y '||fin_fecha);
+        DBMS_OUTPUT.PUT_LINE(' ');
+    
+        -- Bucle para obtener los registros del cursor
+        FOR r_ventas_tot IN c_ventas_tot 
+        LOOP
+            DBMS_OUTPUT.PUT_LINE(r_ventas_tot.com_data||' --- '||'nro. comanda: '||r_ventas_tot.com_num||'   nro. cliente: '||
+            r_ventas_tot.client_cod||'   total ventas:'||r_ventas_tot.total);
+        END LOOP;
+    END P_VENTAS_TOT_EMP;
+    /
+
+    --comprobamos que el procedimiento funcione
+    CALL P_VENTAS_TOT_EMP('01-05-86','12-01-87',7844);
+
+    --comprobamos con un select si es correcto lo que nos muestra el procedimiento
+    SELECT * FROM comanda a
+        INNER JOIN client t
+            ON t.client_cod = a.client_cod
+        INNER JOIN emp e
+            ON t.repr_cod = e.emp_no
+        AND t.repr_cod = 7844
+        AND a.com_data BETWEEN '01-05-86' AND '12-01-87';
+        
+
+
+
