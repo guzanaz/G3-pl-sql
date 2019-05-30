@@ -229,6 +229,10 @@
         DATA_BAIXA DATE not null,
         ANYS_TREB NUMBER(2,0) not null
     );
+    --le añadimos una pk
+        ALTER TABLE OLD_EMP
+        ADD CONSTRAINT 
+            old_emp_pk PRIMARY KEY (emp_no);
 
     --2.Función que calcula los años transcurridos entre dos fechas (fecha de baja - fecha de alta) 
     CREATE OR REPLACE FUNCTION F_ANYS_TREBALLATS (baja_date VARCHAR2, alta_date VARCHAR2)
