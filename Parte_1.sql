@@ -10,7 +10,7 @@
 
 /*0. Creamos los siguientes usuarios para hacer prueba de los privilegios/roles que implementaremos:
 */
-    CREATE USER CLIENTE_PRUEBA DENTIFIED BY CLIENTE; --Usuario: Cliente
+    CREATE USER CLIENTE_PRUEBA IDENTIFIED BY CLIENTE; --Usuario: Cliente
     CREATE USER EMP_VENTAS IDENTIFIED BY VENDEDOR; --Usuario: Dpto Ventas
     CREATE USER EMP_CONTABLE IDENTIFIED BY CONTABLE; --Usuario: Dpto Contabilidad
     CREATE USER EMP_IT IDENTIFIED BY INFORMATICO; --Usuario: Dpto Informática (Admin)
