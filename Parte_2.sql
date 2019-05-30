@@ -194,7 +194,7 @@
 /*Función que:
     * Devuelve la cantidad total de pedidos que ha hecho un determinado cliente 
 */
-
+    --1. Creamos la función
     CREATE OR REPLACE FUNCTION F_TOT_PED_CLI (id_client comanda.client_cod%TYPE)
     RETURN NUMBER
     IS  
@@ -209,6 +209,53 @@
         RETURN total_pedidos;
 
     END F_TOT_PED_CLI;
+
+    --1.1 comprobamos con un bloque anónimo
+    DECLARE
+        total_pedidos NUMBER;
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Cantidad de Pedidos - Cliente 100: '||F_TOT_PED_CLI(100));
+    END;
+
+/*Trigger que:
+    * Registra en una nueva tabla los datos de antiguos trabajadores cuando se dan de baja en la empresa.
+*/
+    --1.Creamos la nueva tabla
+    CREATE TABLE OLD_EMP (
+        EMP_NO NUMBER(6,0) not null,
+        COGNOM VARCHAR(50) not null,
+        DEPT_NO NUMBER(3,0)not null,
+        DATA_ALTA DATE not null,
+        DATA_BAIXA DATE not null,
+        ANYS_TREB NUMBER(2,0) not null
+    );
+
+    --2.Función que calcula los años transcurridos entre dos fechas (fecha de baja - fecha de alta) 
+    CREATE OR REPLACE FUNCTION F_ANYS_TREBALLATS (baja_date VARCHAR2, alta_date VARCHAR2)
+    RETURN NUMBER
+    IS
+        anys_tot NUMBER;
+
+    BEGIN
+        SELECT ROUND((MONTHS_BETWEEN(baja_date, alta_date) / 12), 0)
+            INTO anys_tot
+        FROM DUAL;
+    
+        RETURN anys_tot;
+    END F_ANYS_TREBALLATS;
+    /
+
+    --2.1 comprobamos con un bloque anónimo 
+    DECLARE
+        anys_tot NUMBER;
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE(f_anys_treballats('01-01-20','01-01-19'));
+    END;
+    /
+
+    --3.Creamos el trigger
+
+
 
 
 
