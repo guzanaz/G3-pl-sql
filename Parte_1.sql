@@ -6,6 +6,8 @@
 * por Daniela Gallardo, Carlos Masana, Artur Marin
 */
 
+-- última modificación: 30 de mayo 2019
+
 /*0. Creamos los siguientes usuarios para hacer prueba de los privilegios/roles que implementaremos:
 */
     CREATE USER CLIENTE_PRUEBA DENTIFIED BY CLIENTE; --Usuario: Cliente
