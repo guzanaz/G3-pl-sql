@@ -1,7 +1,5 @@
 # UF3: RA1 y RA2 (DCL y PL/SQL)
 
-_Documentación del trabajo final de M02-Sistemas Gestores de Bases de datos de los estudiantes Carlos Masana, Artur Marin y Daniela Gallardo_
-
 ## Introducción
 
 Estas instrucciones te permitirán realizar la migración de un entorno de desarrollo a un entorno de producción.  A continuación, os mostraremos todos los pasos a seguir para poder implementar nuestra bbdd.
