@@ -80,3 +80,23 @@
     		ON CLIENT.REPR_COD= EMP.EMP_NO)
     	order by client.REPR_COD;
 
+
+    CREATE OR REPLACE TRIGGER t_ptosporventa
+    AFTER INSERT OR UPDATE
+    ON dg_detall
+    FOR EACH ROW 
+    DECLARE
+
+	/*en la tabla detall no tenemos registro nro de emp 
+	entonces creamos una variable para guardarla*/
+
+	v_emp_no client.REPR_COD%type; 
+
+	BEGIN
+		SELECT client.REPR_COD INTO v_emp_no
+			FROM client, comanda
+    			WHERE comanda.client_cod=:new.client_cod
+    			and comanda.com_num=:new.com_num;
+-----CONTINUARÁ----
+
+	END; 
